@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <title>Animal Giphy Fun!</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-lg">
+                    <div class="btn-group" id="buttons-view">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="well well-lg" id="giphy-view"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add an Animal Button!</h3>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" id="animal-input" placeholder="Cow, Dog, etc...">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    //Javascript
+
+
+
+
+
+
+
+
+
+
+
+
+    var topics = ["Narwhal", "Panda", "Orca", "Lizard", "Bear", "Owl", "Turtle", "Merecat", "Mantis Shrimp", "Mola Mola"];
+
+    function makeButtons() {
+    	$("#buttons-view").empty();
+        for (var i = 0; i < topics.length; i++) {
+            var a = $("<button>");
+            a.addClass("animal")
+            a.addClass("btn btn-default")
+            a.attr("data-name", topics[i]);
+            a.text(topics[i]);
+            $("#buttons-view").append(a);
+
+        }
+    }
+
+    function displayGiphy() {
+        var animal = $(this).attr("data-name");
+        console.log(animal);
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=2";
+        console.log(queryURL);
+
+        $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+            .done(function(response) {
+                var results = response.data;
+                console.log(results);
+                for (var b = 0; b < results.length; b++) {
+                    var gifDiv = $("<div class='item'>");
+                    console.log(gifDiv);
+                    var rating = results[b].rating;
+                    console.log(rating);
+                    var pOne = $("<p>").text("Rating: " + rating);
+                    var gifImg = $("<img>");
+                    gifImg.attr("src", results[b].images.fixed_height.url);
+                    gifDiv.prepend(pOne);
+                    gifDiv.prepend(gifImg);
+
+                    $("#giphy-view").prepend(gifDiv);
+                }
+            })
+    };
+
+    $("#submit").on("click", function(event) {
+            event.preventDefault();
+            var newAnimal = $("#animal-input").val().trim();
+            console.log(newAnimal);
+            topics.push(newAnimal);
+            console.log(topics);
+            makeButtons();
+
+        });
+
+    makeButtons()
+    $(document).on("click", ".animal", displayGiphy);
+
+
+
+
+
+    // function displayGiphy() {
+    //     var animal = $(this).attr("data-name");
+    //     var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=4";
+    //     $.ajax({
+    //         url: queryURL,
+    //         method: "GET"
+    //     }).done(function(response) {
+    //         //div for gif
+    //         var results = response.data;
+
+    //         for (var i = 0; i < results.length; i++) {
+    //             var gifDiv = $("<div class='animal'>");
+    //             var rating = results[i].rating;
+    //             var p = $("<p>").text("Rating: " + rating);
+    //             var animalImg = $("<img>");
+    //             animalImg.attr("src", results[i].images.fixed_height.url);
+    //             gifDiv.prepend(p);
+    //             gifDiv.prepend(animalImg);
+    //         }
+
+    //     })
+    // }
+
+    // function makeButtons() {
+    //     $("#buttons-view").empty();
+    //     //loop though array
+    //     for (var i = 0; i > topics.length; i++) {
+    //         //create buttons
+    //         var a = $("<button>");
+    //         a.addClass("animal");
+    //         a.attr("data-name", topics[i]);
+    //         a.text(topics[i]);
+    //         $("#buttons-view").append(a);
+
+    //     }
+
+    // }
+    // $("#submit").on('click', function(event) {
+    //     event.preventDefault();
+    //     var animal = $("#animal-input").val().trim();
+    //     topics.push(animal);
+    //     makeButtons();
+    // })
+
+    // $(document).on('click', '.animal', displayGiphy);
+    // makeButtons();
+    </script>
+</body>
+
+</html>
