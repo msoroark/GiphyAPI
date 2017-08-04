@@ -54,7 +54,7 @@
     var topics = ["Narwhal", "Panda", "Orca", "Lizard", "Bear", "Owl", "Turtle", "Merecat", "Mantis Shrimp", "Mola Mola"];
 
     function makeButtons() {
-    	$("#buttons-view").empty();
+        $("#buttons-view").empty();
         for (var i = 0; i < topics.length; i++) {
             var a = $("<button>");
             a.addClass("animal")
@@ -85,26 +85,62 @@
                     var rating = results[b].rating;
                     console.log(rating);
                     var pOne = $("<p>").text("Rating: " + rating);
-                    var gifImg = $("<img>");
-                    gifImg.attr("src", results[b].images.fixed_height.url);
+                    var gifImg = $("<img class='gif'>")
+                    // gifImg.attr("id", "gif");
+                    gifImg.attr("src", results[b].images.original_still.url);
+                    gifImg.attr("data-still", results[b].images.original_still.url);
+                    gifImg.attr("data-animate", results[b].images.original.url);
+                    gifImg.attr("data-state", "still");
+                    gifImg.on("click", function() {
+    
+                        
+                        var state = $(this).attr("data-state");
+                       
+                        if (state === "still") {
+                            $(this).attr("src", $(this).attr("data-animate"));
+                            $(this).attr("data-state", "animate");
+                        } else {
+                            $(this).attr("src", $(this).attr("data-still"));
+                            $(this).attr("data-state", "still");
+                        }
+                    });
                     gifDiv.prepend(pOne);
                     gifDiv.prepend(gifImg);
+
 
                     $("#giphy-view").prepend(gifDiv);
                 }
             })
     };
 
+
+    // function unstill(event) {
+    // 	event.preventDefault();
+    // 	// event is an img tag
+    // 	console.dir(event.target)
+    // 	if (event.target.src.indexOf('/giphy_s.gif?' > -1)) {
+    // 		event.target.src = event.target.src.replace('/giphy_s.gif?', '/giphy.gif?');
+    // 	}
+    // 	else {
+
+    // 	}
+    // }
+
     $("#submit").on("click", function(event) {
-            event.preventDefault();
-            var newAnimal = $("#animal-input").val().trim();
-            console.log(newAnimal);
-            topics.push(newAnimal);
-            console.log(topics);
-            makeButtons();
+        event.preventDefault();
+        var newAnimal = $("#animal-input").val().trim();
+        console.log(newAnimal);
+        topics.push(newAnimal);
+        console.log(topics);
+        makeButtons();
 
-        });
+    });
 
+    $("img").on('click', function() {
+        $.ajax({
+
+        })
+    })
     makeButtons()
     $(document).on("click", ".animal", displayGiphy);
 
