@@ -2,49 +2,46 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
-    <title>Animal Giphy Fun!</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+  <title>Animal Giphy Fun!</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="well well-lg">
-					<h1> Add a Button for Your Favorite Animal!</h1>
-                    <div class="btn-group" id="buttons-view">
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="well well-lg">
+          <h1> Add a Button for Your Favorite Animal!</h1>
+          <div class="btn-group" id="buttons-view">
+          </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="well well-lg" id="giphy-view"></div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Add an Animal Button!</h3>
-                    </div>
-                    <div class="panel-body">
-                        <input type="text" class="form-control" id="animal-input" placeholder="Cow, Dog, etc...">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="submit">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="well well-lg" id="giphy-view"></div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add an Animal Button!</h3>
+          </div>
+          <div class="panel-body">
+            <input type="text" class="form-control" id="animal-input" placeholder="Cow, Dog, etc...">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" id="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
     //Javascript
-
-
-
 
 
 
@@ -57,63 +54,63 @@
     var topics = ["Narwhal", "Panda", "Orca", "Lizard", "Bear", "Owl", "Turtle", "Squid", "Mantis Shrimp", "Mola Mola"];
 
     function makeButtons() {
-        $("#buttons-view").empty();
-        for (var i = 0; i < topics.length; i++) {
-            var a = $("<button>");
-            a.addClass("animal")
-            a.addClass("btn btn-default")
-            a.attr("data-name", topics[i]);
-            a.text(topics[i]);
-            $("#buttons-view").append(a);
+      $("#buttons-view").empty();
+      for (var i = 0; i < topics.length; i++) {
+        var a = $("<button>");
+        a.addClass("animal")
+        a.addClass("btn btn-default")
+        a.attr("data-name", topics[i]);
+        a.text(topics[i]);
+        $("#buttons-view").append(a);
 
-        }
+      }
     }
 
     function displayGiphy() {
-        var animal = $(this).attr("data-name");
-        console.log(animal);
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=2";
-        console.log(queryURL);
+      var animal = $(this).attr("data-name");
+      console.log(animal);
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=2";
+      console.log(queryURL);
 
-        $.ajax({
-                url: queryURL,
-                method: "GET"
-            })
-            .done(function(response) {
-                var results = response.data;
-                console.log(results);
-                for (var b = 0; b < results.length; b++) {
-                    var gifDiv = $("<div class='item'>");
-                    console.log(gifDiv);
-                    var rating = results[b].rating;
-                    console.log(rating);
-                    var pOne = $("<p>").text("Rating: " + rating);
-                    var gifImg = $("<img class='gif'>")
-                    // gifImg.attr("id", "gif");
-                    gifImg.attr("src", results[b].images.original_still.url);
-                    gifImg.attr("data-still", results[b].images.original_still.url);
-                    gifImg.attr("data-animate", results[b].images.original.url);
-                    gifImg.attr("data-state", "still");
-                    gifImg.on("click", function() {
-
-
-                        var state = $(this).attr("data-state");
-
-                        if (state === "still") {
-                            $(this).attr("src", $(this).attr("data-animate"));
-                            $(this).attr("data-state", "animate");
-                        } else {
-                            $(this).attr("src", $(this).attr("data-still"));
-                            $(this).attr("data-state", "still");
-                        }
-                    });
-                    gifDiv.prepend(pOne);
-                    gifDiv.prepend(gifImg);
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .done(function(response) {
+          var results = response.data;
+          console.log(results);
+          for (var b = 0; b < results.length; b++) {
+            var gifDiv = $("<div class='item'>");
+            console.log(gifDiv);
+            var rating = results[b].rating;
+            console.log(rating);
+            var pOne = $("<p>").text("Rating: " + rating);
+            var gifImg = $("<img class='gif'>")
+            // gifImg.attr("id", "gif");
+            gifImg.attr("src", results[b].images.original_still.url);
+            gifImg.attr("data-still", results[b].images.original_still.url);
+            gifImg.attr("data-animate", results[b].images.original.url);
+            gifImg.attr("data-state", "still");
+            gifImg.on("click", function() {
 
 
-                    $("#giphy-view").prepend(gifDiv);
-                }
-            })
+              var state = $(this).attr("data-state");
+
+              if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+              } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+              }
+            });
+            gifDiv.prepend(pOne);
+            gifDiv.prepend(gifImg);
+
+
+            $("#giphy-view").prepend(gifDiv);
+          }
+        })
     };
 
 
@@ -130,19 +127,19 @@
     // }
 
     $("#submit").on("click", function(event) {
-        event.preventDefault();
-        var newAnimal = $("#animal-input").val().trim();
-        console.log(newAnimal);
-        topics.push(newAnimal);
-        console.log(topics);
-        makeButtons();
+      event.preventDefault();
+      var newAnimal = $("#animal-input").val().trim();
+      console.log(newAnimal);
+      topics.push(newAnimal);
+      console.log(topics);
+      makeButtons();
 
     });
 
     $("img").on('click', function() {
-        $.ajax({
+      $.ajax({
 
-        })
+      })
     })
     makeButtons()
     $(document).on("click", ".animal", displayGiphy);
@@ -197,7 +194,7 @@
 
     // $(document).on('click', '.animal', displayGiphy);
     // makeButtons();
-    </script>
+  </script>
 </body>
 
 </html>
