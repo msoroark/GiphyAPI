@@ -8,3 +8,6 @@ Search to find a few of the top rated GIFs of your favorite animal. The search w
 -CSS 
 -jQuery 
 -Bootstrap
+
+
+
